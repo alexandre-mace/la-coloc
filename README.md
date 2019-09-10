@@ -4,7 +4,7 @@ Boilerplate for [API Platform](https://api-platform.com/) and [React](https://fr
 ## Installation
 * Pull the docker images
 
-     `$ docker pull`
+     `$ docker-compose pull`
 * Follow the [instructions](https://api-platform.com/docs/core/jwt/) to make JWT work 
     
 ## Features

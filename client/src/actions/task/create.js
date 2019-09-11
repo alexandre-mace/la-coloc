@@ -1,6 +1,7 @@
 import { SubmissionError } from 'redux-form';
 import { fetch } from '../../utils/dataAccess';
 import formatTaskFormValues from "../../utils/formatTaskFormValues";
+import { authentication } from '../../services/authentication';
 
 export function error(error) {
   return { type: 'TASK_CREATE_ERROR', error };
@@ -16,6 +17,7 @@ export function success(created) {
 
 export function create(values) {
   values = formatTaskFormValues(values)
+  values.createdBy = authentication.currentUserValue["@id"];
   return dispatch => {
     dispatch(loading(true));
 

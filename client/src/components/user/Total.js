@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { list, reset } from '../../actions/task/list';
+import { list, reset } from '../../actions/user/list';
 
-class List extends Component {
+class Total extends Component {
   static propTypes = {
     retrieved: PropTypes.object,
     loading: PropTypes.bool.isRequired,
@@ -16,18 +16,17 @@ class List extends Component {
   };
 
   componentDidMount() {
-    this.props.list(
-      this.props.match.params.page &&
-        decodeURIComponent(this.props.match.params.page)
-    );
+    this.props.list();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.page !== nextProps.match.params.page)
-      nextProps.list(
-        nextProps.match.params.page &&
+    if (this.props.match) {
+      if (this.props.match.params.page !== nextProps.match.params.page)
+        nextProps.list(
+          nextProps.match.params.page &&
           decodeURIComponent(nextProps.match.params.page)
-      );
+        );
+    }
   }
 
   componentWillUnmount() {
@@ -36,48 +35,8 @@ class List extends Component {
 
   render() {
     return (
-      <div className={"container"}>
-        <div className={"row"}>
-          <div className="col">
-            {this.props.loading && (
-              <div className="alert alert-info">Loading...</div>
-            )}
-            {this.props.deletedItem && (
-              <div className="alert alert-success">
-                {this.props.deletedItem['@id']} deleted.
-              </div>
-            )}
-            {this.props.error && (
-              <div className="alert alert-danger">{this.props.error}</div>
-            )}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {`${this.props.retrieved && this.props.retrieved['hydra:totalItems']} taches`}
-
-            <ul className={""}>
-              {this.props.retrieved &&
-              this.props.retrieved['hydra:member'].map(item => (
-                <li key={item['@id']} className={"d-flex align-items-center"}>
-                  <div className="d-flex flex-column">
-                    <div className="d-flex">
-                      <div className={"mr-3"}>{item['name']}</div>
-                      <div>{item['hardness']}</div>
-                    </div>
-                    <div>{`Ajouté par ${item.createdBy.firstName}`}</div>
-                    <div>supprimer cette tâche</div>
-                  </div>
-                  <div className={"ml-3"}>
-                    <button>fait</button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/*// {this.pagination()}*/}
+      <div>
+        {`${this.props.retrieved && this.props.retrieved['hydra:totalItems']} membres`}
       </div>
     );
   }
@@ -145,7 +104,7 @@ const mapStateToProps = state => {
     error,
     eventSource,
     deletedItem
-  } = state.task.list;
+  } = state.user.list;
   return { retrieved, loading, error, eventSource, deletedItem };
 };
 
@@ -157,4 +116,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(List);
+)(Total);

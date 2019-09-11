@@ -4,8 +4,9 @@ import './Header.scss'
 import { connect } from 'react-redux';
 import { authentication } from '../../services/authentication';
 import Typography from '@material-ui/core/Typography';
-import CustomSearchBar from "../../utils/CustomSearchBar";
-import CustomMaterialButton from "../../utils/CustomMaterialButton";
+import Total from "../user/Total";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCog } from '@fortawesome/free-solid-svg-icons'
 
 class Header extends React.Component {
     constructor(props) {
@@ -26,40 +27,25 @@ class Header extends React.Component {
                     <div className="row py-3">
                         <div className="col d-flex align-items-center flex-grow-high">
                             {this.props.currentUser ? (
-                                <Link to="/">
+                                <div className={"d-flex flex-column"}>
                                     <Typography variant="h6" noWrap>
-                                        Bonjour {this.props.currentUser.firstName}
+                                        La coloc
                                     </Typography>
-                                </Link>
+                                    <Total {...this.props}/>
+                                </div>
                             ) : (
                                 <Link to="/">
                                     <Typography variant="h6" noWrap>
-                                        Nom du projet
+                                        La coloc
                                     </Typography>
                                 </Link>
                             )}
-                        </div>
-                        <div className="px-3">
-                            <CustomSearchBar/>
-                        </div>
-                        <div className="col d-flex justify-content-center">
-                            <ul className="my-auto d-flex justify-content-around">
-                                <li className="mr-5">
-                                    <Link to="/listing">Listing</Link>
-                                </li>
-                                <li className="mr-5">
-                                    <Link to="/info">Qui est nom du projet</Link>
-                                </li>
-                                <li>
-                                    <Link to="/help">Soutenir nom du projet</Link>
-                                </li>
-                            </ul>
                         </div>
                         {this.props.currentUser ? (
                             <div className="col d-flex">
                                 <div className="d-flex ml-auto">
                                     <div onClick={this.handleLogout}>
-                                        <CustomMaterialButton text={'Se déconnecter'} color={'secondary'} />
+                                        <FontAwesomeIcon icon={faCog} />
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +54,7 @@ class Header extends React.Component {
                                 <div className="col d-flex">
                                     <div className="d-flex ml-auto">
                                         <Link to="/se-connecter">
-                                            <CustomMaterialButton text={'Se connecter'} color={'primary'}/>
+                                            <FontAwesomeIcon icon={faCog} />
                                         </Link>
                                     </div>
                                 </div>

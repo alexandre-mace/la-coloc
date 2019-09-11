@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from "./Header.jsx";
 import { authentication } from '../../services/authentication';
-import Footer from "../block/Footer.jsx";
 import { connect } from 'react-redux';
 import {AppContext} from '../../utils/AppContext';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -46,7 +45,6 @@ class Layout extends React.Component {
                         </div>
                     </div>
                     {this.props.children}
-                    <Footer {...this.props}/>
                 </ThemeProvider>
             </AppContext.Provider>
 

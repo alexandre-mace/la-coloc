@@ -9,12 +9,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CustomMaterialIconDoneButton() {
+export default function CustomMaterialIconDoneButton(props) {
   const classes = useStyles();
 
   return (
     <div>
-      <IconButton className={classes.button}>
+      <IconButton onClick={() => props.onPress()} className={classes.button}>
         <CheckCircleOutlineIcon className={classes.icon} color={'disabled'} fontSize={'large'}/>
       </IconButton>
     </div>

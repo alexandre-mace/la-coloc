@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { list, reset } from '../../actions/task/list';
 import CustomMaterialIconDoneButton from "../../utils/CustomMaterialIconDoneButton";
 import CustomMaterialIconAddButton from "../../utils/CustomMaterialIconAddButton";
+import {
+  fetch,
+} from '../../utils/dataAccess';
 
 class List extends Component {
   static propTypes = {
@@ -36,52 +39,62 @@ class List extends Component {
     this.props.reset(this.props.eventSource);
   }
 
+
   render() {
+
+    const finishTask = (id) => {
+      fetch(`${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          done: true
+        })
+      })
+        .then(response => response.json().then((data) => {
+          this.props.list(
+            this.props.match.params.page &&
+              decodeURIComponent(this.props.match.params.page)
+          );
+        })
+        )
+    }
+
     return (
-      <div className={"container"}>
-        <div className={"row"}>
-          <div className="col">
-            {this.props.loading && (
-              <div className="alert alert-info">Loading...</div>
-            )}
-            {this.props.deletedItem && (
-              <div className="alert alert-success">
-                {this.props.deletedItem['@id']} deleted.
-              </div>
-            )}
-            {this.props.error && (
-              <div className="alert alert-danger">{this.props.error}</div>
-            )}
+      <div>
+        {this.props.loading && (
+          <div className="alert alert-info">Loading...</div>
+        )}
+        {this.props.deletedItem && (
+          <div className="alert alert-success">
+            {this.props.deletedItem['@id']} deleted.
           </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <ul className={""}>
-              {this.props.retrieved &&
-              this.props.retrieved['hydra:member'].map(item => (
-                <li key={item['@id']} className={"p-0 d-flex align-items-center justify-content-between task-list-item"}>
-                  <div className={"d-flex align-items-center align-self-start mt-3"}>
-                    <div className={`hardness-indicator hardness-indicator-${item.hardness}`}>
-                    </div>
-                    <div className={`mr-2 hardness-round-indicator hardness-round-indicator-${item.hardness}`}>
-                    </div>
+        )}
+        {this.props.error && (
+          <div className="alert alert-danger">{this.props.error}</div>
+        )}
+        <div>
+          <ul>
+            {this.props.retrieved &&
+            this.props.retrieved['hydra:member'].map(item => (
+              <li key={item['@id']} className={"p-0 d-flex align-items-center justify-content-between task-list-item"}>
+                <div className={"d-flex align-items-center align-self-start mt-3"}>
+                  <div className={`hardness-indicator hardness-indicator-${item.hardness}`}>
                   </div>
-                  <div className="d-flex flex-column">
-                    <div className="d-flex">
-                      <div className={"mr-3 task-list-item-title font-weight-bold"}>{item['name']}</div>
-                    </div>
-                    <div className={"task-list-item-subtitle"}>{`Tâche ajoutée par ${item.createdBy.firstName}`}</div>
-                    <div className={"task-list-item-secondary-action mt-2"}>Supprimer cette tâche</div>
+                  <div className={`mr-2 hardness-round-indicator hardness-round-indicator-${item.hardness}`}>
                   </div>
-                  <div className={"d-flex task-list-item-button-wrapper ml-auto"}>
-                    <div className="m-auto">
-                      <CustomMaterialIconDoneButton/>
-                    </div>
+                </div>
+                <div className="d-flex flex-column">
+                  <p className={"mr-3 task-list-item-title font-weight-bold"}>{item['name']}</p>
+                  <p className={"task-list-item-subtitle"}>{`Tâche ajoutée par ${item.createdBy.firstName}`}</p>
+                  <p className={"task-list-item-secondary-action mt-2"}>Supprimer cette tâche</p>
+                </div>
+                <div className={"d-flex task-list-item-button-wrapper ml-auto"}>
+                  <div className="m-auto">
+                    <CustomMaterialIconDoneButton onPress={() => finishTask(item['@id'])} />
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
         {this.props.retrieved && this.props.retrieved['hydra:totalItems'] === 0 &&
           <div className="row">

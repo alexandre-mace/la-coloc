@@ -28,7 +28,6 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"project:read"})
      */
     private $id;
 
@@ -51,7 +50,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"project:read"})
+     * @Groups({"task"})
      */
     private $firstName;
 

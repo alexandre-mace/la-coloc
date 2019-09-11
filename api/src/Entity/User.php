@@ -55,9 +55,15 @@ class User implements UserInterface
      */
     private $firstName;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="createdBy")
+     */
+    private $createdTasks;
+
 
     public function __construct()
     {
+        $this->createdTasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +152,37 @@ class User implements UserInterface
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getCreatedTasks(): Collection
+    {
+        return $this->createdTasks;
+    }
+
+    public function addCreatedTask(Task $createdTask): self
+    {
+        if (!$this->createdTasks->contains($createdTask)) {
+            $this->createdTasks[] = $createdTask;
+            $createdTask->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedTask(Task $createdTask): self
+    {
+        if ($this->createdTasks->contains($createdTask)) {
+            $this->createdTasks->removeElement($createdTask);
+            // set the owning side to null (unless already changed)
+            if ($createdTask->getCreatedBy() === $this) {
+                $createdTask->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }

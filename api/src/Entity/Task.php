@@ -33,6 +33,12 @@ class Task
      */
     private $done = false;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="createdTasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $createdBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +76,18 @@ class Task
     public function setDone(bool $done): self
     {
         $this->done = $done;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

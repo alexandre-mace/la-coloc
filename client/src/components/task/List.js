@@ -39,25 +39,24 @@ class List extends Component {
     this.props.reset(this.props.eventSource);
   }
 
-
-  render() {
-
-    const finishTask = (id) => {
-      fetch(`${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          done: true
-        })
+  finishTask = (id) => {
+    fetch(`${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        done: true
       })
-        .then(response => response.json().then((data) => {
+    }).then(response => response
+        .json()
+        .then((data) => {
           this.props.list(
             this.props.match.params.page &&
               decodeURIComponent(this.props.match.params.page)
           );
         })
-        )
-    }
+      )
+  }
 
+  render() {
     return (
       <div>
         {this.props.loading && (
@@ -89,7 +88,7 @@ class List extends Component {
                 </div>
                 <div className={"d-flex task-list-item-button-wrapper ml-auto"}>
                   <div className="m-auto">
-                    <CustomMaterialIconDoneButton onPress={() => finishTask(item['@id'])} />
+                    <CustomMaterialIconDoneButton onPress={() => this.finishTask(item['@id'])} />
                   </div>
                 </div>
               </li>

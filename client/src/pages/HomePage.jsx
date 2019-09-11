@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Total from "../components/task/Total";
+import BalanceList from "../components/task/BalanceList";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -43,8 +44,15 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(theme => ({
     root: {
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: 'white',
         width: '100vw',
+    },
+    tabs: {
+        boxShadow : '0 2px 6px -6px #292727'
+
+    },
+    tab: {
+        textTransform: 'initial'
     },
 }));
 
@@ -64,19 +72,18 @@ export default function HomePage(props) {
     return (
         <>
             <Layout>
-                <Total {...props}/>
                 <div className={classes.root}>
-                    <AppBar position="static" color="default">
+                    <AppBar position="static" color="white" className={classes.tabs}>
                         <Tabs
                             value={value}
                             onChange={handleChange}
-                            indicatorColor="primary"
-                            textColor="primary"
+                            indicatorColor="secondary"
+                            textColor="#292727"
                             variant="fullWidth"
                             aria-label="full width tabs example"
                         >
-                            <Tab label="To do" {...a11yProps(0)} />
-                            <Tab label="Équilibre" {...a11yProps(1)} />
+                            <Tab className={classes.tab} label="Tâches" {...a11yProps(0)} />
+                            <Tab className={classes.tab}  label="Équilibre" {...a11yProps(1)} />
                         </Tabs>
                     </AppBar>
                     <SwipeableViews
@@ -88,7 +95,7 @@ export default function HomePage(props) {
                             <List {...props}/>
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
-                            Item Two
+                            <BalanceList {...props}/>
                         </TabPanel>
                     </SwipeableViews>
                 </div>

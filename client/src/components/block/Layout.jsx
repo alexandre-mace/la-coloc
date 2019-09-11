@@ -10,6 +10,12 @@ import { ThemeProvider } from '@material-ui/styles';
 const theme = createMuiTheme({
     palette: {
         primary: blue,
+        secondary: {
+            main: '#4885FA',
+        },
+        disabled: {
+            main: "#D6D6D6"
+        }
     },
 });
 
@@ -39,11 +45,6 @@ class Layout extends React.Component {
             <AppContext.Provider value={{ updateCurrentUser: () => this.updateCurrentUser(), currentUser: this.state.currentUser }}>
                 <ThemeProvider theme={theme}>
                     <Header updateCurrentUser={() => this.updateCurrentUser()} currentUser={this.state.currentUser} {...this.props} />
-                    <div className="container">
-                        <div className="row">
-                            <div className="my-4"></div>
-                        </div>
-                    </div>
                     {this.props.children}
                 </ThemeProvider>
             </AppContext.Provider>

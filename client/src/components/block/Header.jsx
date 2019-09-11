@@ -3,10 +3,9 @@ import { Link }from 'react-router-dom';
 import './Header.scss'
 import { connect } from 'react-redux';
 import { authentication } from '../../services/authentication';
-import Typography from '@material-ui/core/Typography';
 import Total from "../user/Total";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCog } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
 class Header extends React.Component {
     constructor(props) {
@@ -22,48 +21,33 @@ class Header extends React.Component {
 
     render() {
         return (
-            <>
-                <div className="container-fluid">
-                    <div className="row py-3">
-                        <div className="col d-flex align-items-center flex-grow-high">
+            <header className="container-fluid pb-3">
+                <div className="row pt-3">
+                    <div className="col">
+                        <div className={"d-flex justify-content-between align-items-center"}>
+                            <div className={"font-weight-bold"}>
+                                Nom de l'appartement
+                            </div>
                             {this.props.currentUser ? (
-                                <div className={"d-flex flex-column"}>
-                                    <Typography variant="h6" noWrap>
-                                        La coloc
-                                    </Typography>
-                                    <Total {...this.props}/>
+                                <div className={"d-flex"} onClick={this.handleLogout}>
+                                    <FontAwesomeIcon icon={faEllipsisV} color={'#000000'} />
                                 </div>
                             ) : (
-                                <Link to="/">
-                                    <Typography variant="h6" noWrap>
-                                        La coloc
-                                    </Typography>
+                                <Link to="/se-connecter">
+                                    <div className="d-flex">
+                                        <FontAwesomeIcon icon={faEllipsisV} color={'#000000'} />
+                                    </div>
                                 </Link>
                             )}
                         </div>
-                        {this.props.currentUser ? (
-                            <div className="col d-flex">
-                                <div className="d-flex ml-auto">
-                                    <div onClick={this.handleLogout}>
-                                        <FontAwesomeIcon icon={faCog} />
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="col d-flex">
-                                    <div className="d-flex ml-auto">
-                                        <Link to="/se-connecter">
-                                            <FontAwesomeIcon icon={faCog} />
-                                        </Link>
-                                    </div>
-                                </div>
-                            </>
-                        )}
-
                     </div>
                 </div>
-            </>
+                <div className="row">
+                    <div className="col">
+                        <Total {...this.props}/>
+                    </div>
+                </div>
+            </header>
         )
     }
 }

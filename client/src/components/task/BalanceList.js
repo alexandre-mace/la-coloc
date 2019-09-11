@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { list, reset } from '../../actions/task/list';
-import CustomMaterialIconDoneButton from "../../utils/CustomMaterialIconDoneButton";
-import CustomMaterialIconAddButton from "../../utils/CustomMaterialIconAddButton";
 
-class List extends Component {
+class BalanceList extends Component {
   static propTypes = {
     retrieved: PropTypes.object,
     loading: PropTypes.bool.isRequired,
@@ -20,7 +18,7 @@ class List extends Component {
   componentDidMount() {
     this.props.list(
       this.props.match.params.page &&
-        decodeURIComponent(this.props.match.params.page)
+      decodeURIComponent(this.props.match.params.page)
     );
   }
 
@@ -28,7 +26,7 @@ class List extends Component {
     if (this.props.match.params.page !== nextProps.match.params.page)
       nextProps.list(
         nextProps.match.params.page &&
-          decodeURIComponent(nextProps.match.params.page)
+        decodeURIComponent(nextProps.match.params.page)
       );
   }
 
@@ -54,53 +52,28 @@ class List extends Component {
             )}
           </div>
         </div>
+        <div className={"row"}>
+          <div className="col">
+            {this.props.retrieved && <div>CHARTJS</div>}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <h3>Historique des tâches</h3>
+          </div>
+        </div>
         <div className="row">
           <div className="col">
             <ul className={""}>
               {this.props.retrieved &&
               this.props.retrieved['hydra:member'].map(item => (
-                <li key={item['@id']} className={"p-0 d-flex align-items-center justify-content-between task-list-item"}>
-                  <div className={"d-flex align-items-center align-self-start mt-3"}>
-                    <div className={`hardness-indicator hardness-indicator-${item.hardness}`}>
-                    </div>
-                    <div className={`mr-2 hardness-round-indicator hardness-round-indicator-${item.hardness}`}>
-                    </div>
-                  </div>
-                  <div className="d-flex flex-column">
-                    <div className="d-flex">
-                      <div className={"mr-3 task-list-item-title font-weight-bold"}>{item['name']}</div>
-                    </div>
-                    <div className={"task-list-item-subtitle"}>{`Tâche ajoutée par ${item.createdBy.firstName}`}</div>
-                    <div className={"task-list-item-secondary-action mt-2"}>Supprimer cette tâche</div>
-                  </div>
-                  <div className={"d-flex task-list-item-button-wrapper ml-auto"}>
-                    <div className="m-auto">
-                      <CustomMaterialIconDoneButton/>
-                    </div>
-                  </div>
+                <li key={item['@id']} className={"d-flex justify-content-between"}>
+                    <div className={"mr-3"}>{item['name']}</div>
+                    <div>{item['hardness']}</div>
+                    <div>{`Ajouté par ${item.createdBy.firstName}`}</div>
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
-        {this.props.retrieved && this.props.retrieved['hydra:totalItems'] === 0 &&
-          <div className="row">
-            <div className="col">
-              <p className={'text-center'}>
-                Il n’y a aucune tâche à réaliser pour le moment. Crée en une et commence une liste.
-              </p>
-            </div>
-          </div>
-        }
-        <div className="row mt-3">
-          <div className="col">
-            <div className="d-flex">
-              <div className="m-auto">
-                <Link to="/tasks/create">
-                  <CustomMaterialIconAddButton/>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -184,4 +157,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(List);
+)(BalanceList);

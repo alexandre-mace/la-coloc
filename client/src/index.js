@@ -16,9 +16,11 @@ import 'font-awesome/css/font-awesome.css';
 import './app.scss';
 import * as serviceWorker from './serviceWorker';
 // Import your reducers and routes here
+import task from './reducers/task/';
 import Welcome from './Welcome';
 import user from './reducers/user/';
 import userRoutes from './routes/user';
+import taskRoutes from './routes/task';
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import ListingPage from "./pages/ListingPage.jsx";
@@ -31,6 +33,7 @@ const store = createStore(
     router: connectRouter(history),
     form,
       user,
+      task
     /* Add your reducers here */
   }),
   applyMiddleware(routerMiddleware(history), thunk)
@@ -42,6 +45,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/welcome" component={Welcome} strict={true} exact={true}/>
           { userRoutes }
+          { taskRoutes }
           <Route path="/se-connecter" component={LoginPage} strict={true} exact={true} />
           <Route path="/listing" component={ListingPage} strict={true} exact={true} />
           <Route path="/info" component={InfoPage} strict={true} exact={true} />

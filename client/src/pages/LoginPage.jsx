@@ -15,7 +15,6 @@ export default class LoginPage extends React.Component {
             <Layout>
                 <div className="container">
                     <div className="row">
-                        <div className="mx-5"></div>
                         <div className="col">
                             <Register/>
                         </div>

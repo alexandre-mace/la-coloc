@@ -55,11 +55,6 @@ class User implements UserInterface
      */
     private $firstName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
-
 
     public function __construct()
     {
@@ -151,18 +146,6 @@ class User implements UserInterface
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
 
         return $this;
     }

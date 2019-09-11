@@ -21,11 +21,9 @@ class Register extends React.Component {
     render() {
         return(
             <div className="">
-                <span className="h2">Rejoindre la plateforme</span>
                 <Formik
                     initialValues={{
                         firstName: '',
-                        lastName: '',
                         email: '',
                         password: '',
                         confirmPassword: ''
@@ -33,8 +31,6 @@ class Register extends React.Component {
                     validationSchema={Yup.object().shape({
                         firstName: Yup.string()
                             .required('Le prénom est requis'),
-                        lastName: Yup.string()
-                            .required('Le nom est requis'),
                         email: Yup.string()
                             .email('L\'addresse email est invalide')
                             .required('L\'email est requis'),
@@ -47,7 +43,7 @@ class Register extends React.Component {
                     })}
                     onSubmit={(fields, { setStatus, setSubmitting, setErrors, resetForm }, initialValues) => {
                         setStatus();
-                        fetch('http://localhost:8080/users', { method: 'POST', body: JSON.stringify(fields, ['firstName', 'lastName', 'email', 'password'], 4)  })
+                        fetch('http://localhost:8080/users', { method: 'POST', body: JSON.stringify(fields, ['firstName', 'email', 'password'], 4)  })
                             .then((response) => {
                                 authentication.login(fields.email, fields.password)
                                     .then(
@@ -74,10 +70,6 @@ class Register extends React.Component {
                             <div className="form-group">
                                 <Field component={TextField} label="Prénom" margin="normal" fullWidth name="firstName" type="text" />
                                 <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
-                            </div>
-                            <div className="form-group">
-                                <Field component={TextField} label="Nom" margin="normal" fullWidth name="lastName" type="text" />
-                                <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group">
                                 <Field component={TextField} label="Email" margin="normal" fullWidth name="email" type="text" />

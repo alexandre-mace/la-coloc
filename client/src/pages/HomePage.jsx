@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from "../components/block/Layout";
+import {List} from "../components/task";
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ export default class HomePage extends React.Component {
         return (
             <>
             <Layout>
+                <List {...this.props}/>
             </Layout>
             </>
         )

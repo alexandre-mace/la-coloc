@@ -35,21 +35,46 @@ class List extends Component {
   }
 
   render() {
+    console.log(this.props.retrieved)
     return (
-      <div>
-        <h1>Task List</h1>
-
-        {this.props.loading && (
-          <div className="alert alert-info">Loading...</div>
-        )}
-        {this.props.deletedItem && (
-          <div className="alert alert-success">
-            {this.props.deletedItem['@id']} deleted.
+      <div className={"container"}>
+        <div className={"row"}>
+          <div className="col">
+            {this.props.loading && (
+              <div className="alert alert-info">Loading...</div>
+            )}
+            {this.props.deletedItem && (
+              <div className="alert alert-success">
+                {this.props.deletedItem['@id']} deleted.
+              </div>
+            )}
+            {this.props.error && (
+              <div className="alert alert-danger">{this.props.error}</div>
+            )}
           </div>
-        )}
-        {this.props.error && (
-          <div className="alert alert-danger">{this.props.error}</div>
-        )}
+        </div>
+        <div className="row">
+          <div className="col">
+            <ul className={""}>
+              {this.props.retrieved &&
+              this.props.retrieved['hydra:member'].map(item => (
+                <li key={item['@id']} className={"d-flex align-items-center"}>
+                  <div className="d-flex flex-column">
+                    <div className="d-flex">
+                      <div className={"mr-3"}>{item['name']}</div>
+                      <div>{item['hardness']}</div>
+                    </div>
+                    <div>{`Ajouté par ${item.createdBy.firstName}`}</div>
+                    <div>supprimer cette tâche</div>
+                  </div>
+                  <div className={"ml-3"}>
+                    <button>fait</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         <p>
           <Link to="create" className="btn btn-primary">
@@ -57,46 +82,7 @@ class List extends Component {
           </Link>
         </p>
 
-        <table className="table table-responsive table-striped table-hover">
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>name</th>
-              <th>hardness</th>
-              <th>done</th>
-              <th colSpan={2} />
-            </tr>
-          </thead>
-          <tbody>
-            {this.props.retrieved &&
-              this.props.retrieved['hydra:member'].map(item => (
-                <tr key={item['@id']}>
-                  <th scope="row">
-                    <Link to={`show/${encodeURIComponent(item['@id'])}`}>
-                      {item['@id']}
-                    </Link>
-                  </th>
-                  <td>{item['name']}</td>
-                  <td>{item['hardness']}</td>
-                  <td>{item['done']}</td>
-                  <td>
-                    <Link to={`show/${encodeURIComponent(item['@id'])}`}>
-                      <span className="fa fa-search" aria-hidden="true" />
-                      <span className="sr-only">Show</span>
-                    </Link>
-                  </td>
-                  <td>
-                    <Link to={`edit/${encodeURIComponent(item['@id'])}`}>
-                      <span className="fa fa-pencil" aria-hidden="true" />
-                      <span className="sr-only">Edit</span>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-
-        {this.pagination()}
+        {/*// {this.pagination()}*/}
       </div>
     );
   }

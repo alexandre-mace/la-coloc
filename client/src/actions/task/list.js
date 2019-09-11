@@ -30,7 +30,7 @@ export function list(page = '/tasks') {
           .then(retrieved => ({ retrieved, hubURL: extractHubURL(response) }))
       )
       .then(({ retrieved, hubURL }) => {
-        retrieved = normalize(retrieved);
+        // retrieved = normalize(retrieved);
 
         dispatch(loading(false));
         dispatch(success(retrieved));

@@ -81,8 +81,7 @@ class List extends Component {
   render() {
     return (
       <div>
-        
-        {/* {this.taskDone && <AlertTaskDone taskDone />} */}
+
         {this.props.loading && (
           <div className="alert alert-info">Loading...</div>
         )}

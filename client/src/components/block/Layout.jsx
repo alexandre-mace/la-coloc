@@ -12,7 +12,7 @@ const theme = createMuiTheme({
     palette: {
         primary: blue,
         secondary: {
-            main: '#4885FA',
+            main: '#ffffff',
         },
         disabled: {
             main: "#D6D6D6"
@@ -26,7 +26,7 @@ class Layout extends React.Component {
         this.state = {
             currentUser: false,
             showAlert: false,
-            value: 0 
+            value: 0
         };
     }
 

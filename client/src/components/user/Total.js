@@ -36,14 +36,6 @@ class Total extends Component {
   render() {
     return (
       <div className={'d-flex'}>
-        <div className={"d-flex"}>
-          {this.props.retrieved && this.props.retrieved['hydra:member'].map((item, index) => {
-            return (
-              <div key={item.id} style={{transform: `translateX(-${5 * index}px)`}} className={"user-round"}/>
-            )
-          }
-          )}
-        </div>
         <div>
           <span className={'secondary-text user-round-annotation'}>
             {this.props.retrieved && this.props.retrieved['hydra:totalItems']} membres

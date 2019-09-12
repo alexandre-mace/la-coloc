@@ -17,17 +17,17 @@ class Total extends Component {
 
   componentDidMount() {
     this.props.list(
-      this.props.match.params.page &&
-      decodeURIComponent(this.props.match.params.page)
     );
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.match) {
     if (this.props.match.params.page !== nextProps.match.params.page)
       nextProps.list(
         nextProps.match.params.page &&
         decodeURIComponent(nextProps.match.params.page)
       );
+    }
   }
 
   componentWillUnmount() {
@@ -36,9 +36,9 @@ class Total extends Component {
 
   render() {
     return (
-      <div>
-        {`${this.props.retrieved && this.props.retrieved['hydra:totalItems']} tâches`}
-      </div>
+      <p className={'text-center list-total-items-count'}>
+        {`${this.props.retrieved && this.props.retrieved['hydra:totalItems']} tâches à réaliser`}
+      </p>
     );
   }
 

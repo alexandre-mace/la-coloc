@@ -8,8 +8,10 @@ import CustomMaterialIconAddButton from "../../utils/CustomMaterialIconAddButton
 import {
   fetch,
 } from '../../utils/dataAccess';
-import AlertTaskDone from './AlertTaskDone'
 import { AppContext } from '../../utils/AppContext';
+import { update } from '../../actions/task/update';
+import {authentication} from "../../services/authentication";
+import Total from "./Total";
 
 class List extends Component {
   static propTypes = {
@@ -49,22 +51,18 @@ class List extends Component {
     this.props.reset(this.props.eventSource);
   }
 
-  finishTask = (id) => {
-    fetch(`${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        done: true
+  finishTask = (task) => {
+    this.props.update(task, {
+        done: true,
+        doneBy: authentication.currentUserValue.firstName
       })
-    }).then(response => response
-        .json()
-        .then((data) => {
-          this.context.showAlert()
-          this.props.list(
-            this.props.match.params.page &&
-              decodeURIComponent(this.props.match.params.page)
-          );
-        })
-      )
+      .then(() => {
+        this.context.showAlert()
+        this.props.list(
+          this.props.match.params.page &&
+            decodeURIComponent(this.props.match.params.page)
+        );
+      })
   }
 
   deleteTask = (id) => {
@@ -93,6 +91,9 @@ class List extends Component {
         {this.props.error && (
           <div className="alert alert-danger">{this.props.error}</div>
         )}
+        {this.props.retrieved && this.props.retrieved['hydra:totalItems'] !== 0 &&
+          <Total/>
+        }
         <div>
           <ul>
             {this.props.retrieved &&
@@ -106,12 +107,16 @@ class List extends Component {
                 </div>
                 <div className="d-flex flex-column">
                   <p className={"mr-3 task-list-item-title font-weight-bold"}>{item['name']}</p>
-                  <p className={"task-list-item-subtitle"}>{`Tâche ajoutée par ${item.createdBy.firstName}`}</p>
-                  <button onClick={() => this.deleteTask(item['@id'])} className={"task-list-item-secondary-action mt-2"}>Supprimer cette tâche</button>
+                  <div className={"task-list-item-description-wrapper mt-2"}>
+
+                    <p className={"task-list-item-subtitle"}>{`Ajoutée par ${item.createdBy.firstName}`}</p>
+                    <div onClick={() => this.deleteTask(item['@id'])} className={"task-list-item-secondary-action font-weight-bold ml-2"}>Retirer</div>
+                  </div>
+
                 </div>
                 <div className={"d-flex task-list-item-button-wrapper ml-auto"}>
                   <div className="m-auto">
-                    <CustomMaterialIconDoneButton onPress={() => this.finishTask(item['@id'])} />
+                    <CustomMaterialIconDoneButton onPress={() => this.finishTask(item)} />
                   </div>
                 </div>
               </li>
@@ -127,17 +132,9 @@ class List extends Component {
             </div>
           </div>
         }
-        <div className="row mt-3">
-          <div className="col">
-            <div className="d-flex">
-              <div className="m-auto">
-                <Link to="/tasks/create">
-                  <CustomMaterialIconAddButton/>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Link to="/tasks/create">
+          <CustomMaterialIconAddButton/>
+        </Link>
 
         {/*// {this.pagination()}*/}
       </div>
@@ -213,7 +210,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   list: page => dispatch(list(page)),
-  reset: eventSource => dispatch(reset(eventSource))
+  reset: eventSource => dispatch(reset(eventSource)),
+  update: (item, values) => dispatch(update(item, values))
 });
 
 export default connect(

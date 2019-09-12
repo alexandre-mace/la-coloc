@@ -170,73 +170,83 @@ button:focus {
 
 
 .MuiTabs-indicator {
-  height: 3px !important;
+    height: 3px !important;
 }
 .Mui-selected .MuiTab-wrapper {
-  font-weight: bold;
+    font-weight: bold;
 }
 header {
-  background-color: white;
+    background-color: #61A398;
 }
 .secondary-text {
-  font-size: 14px;
-  color: #939393;
+    font-size: 14px;
+    color: #1C5C51;
 }
 .user-round-annotation {
-  transform: translateX(-5px);
+    transform: translateX(-5px);
 }
 .task-list-item {
-  &-subtitle {
-    font-size: 12px;
-    color: #939393;
-  }
-  &-secondary-action {
-    font-size: 10px;
-    color: #292727;
-    text-decoration: underline;
-  }
-  &-title {
-    font-size: 18px;
-  }
-  &-button-wrapper {
-    height: 90px;
-    border-left: 2px solid rgba(0,0,0,0.1);
-  }
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.01), 0 3px 6px rgba(0,0,0,0.16);
+    .MuiButtonBase-root {
+        color: black !important;
+    }
+    &-description-wrapper {
+        display: flex;
+        margin-left: -35px;
+        align-items: center;
+    }
+    &-subtitle {
+        font-size: 14px;
+        color: #939393;
+    }
+    &-secondary-action {
+        font-size: 14px;
+        color: #FF7F50;
+        text-decoration: underline;
+    }
+    &-title {
+        font-size: 18px;
+        margin-top: -15px;
+    }
+    &-button-wrapper {
+        height: 90px;
+    }
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.01), 0 3px 6px rgba(0,0,0,0.16);
 }
 .hardness-indicator {
-  width: 27px;
-  height: 17px;
-  align-self: flex-start;
-  &-0 {
-    background-color: #10E39A;
-  }
-  &-1 {
-    background-color: #F8D74B;
-  }
-  &-2 {
-    background-color: #FF9300;
-  }
+    width: 27px;
+    height: 17px;
+    align-self: flex-start;
+    &-0 {
+        background-color: #EBD69E;
+    }
+    &-1 {
+        background-color: #FFB633;
+    }
+    &-2 {
+        background-color: #FF7F50;
+    }
 }
 .hardness-round-indicator {
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  transform: translateX(-10px);
-  align-self: flex-start;
-  &-0 {
-    background-color: #10E39A;
-  }
-  &-1 {
-    background-color: #F8D74B;
-  }
-  &-2 {
-    background-color: #FF9300;
-  }
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    transform: translateX(-10px);
+    align-self: flex-start;
+    &-0 {
+        background-color: #EBD69E;
+    }
+    &-1 {
+        background-color: #FFB633;
+    }
+    &-2 {
+        background-color: #FF7F50;
+    }
 }
-
+.list-total-items-count {
+    color: #9D9D9D;
+}
 .done {
   height: 120px;
   background-color: #ffffff;
@@ -255,6 +265,7 @@ header {
   justify-content: space-between;
   align-items: flex-start;
 }
+
 .done--displayed {
   transform: translateY(10%)
 }
@@ -316,4 +327,42 @@ header {
 .done__close {
   padding: 0;
   margin:0;
+}
+.MuiTab-wrapper {
+    color: white !important;
+}
+.MuiFab-root {
+    background-color: #FF7F50 !important;
+    color: white !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+}
+.flat-title {
+    color: white;
+}
+.react-swipeable-view-container {
+    min-height: 80vh;
+}
+.last-done-tasks {
+    font-size: 16px;
+    color: #292727;
+    font-weight: bold;
+}
+.last-done-task-item {
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.01), 0 3px 6px rgba(0,0,0,0.16);
+&-title {
+    color: #939393;
+    font-size: 14px;
+}
+    &-subinfos-wrapper {
+        width: 80px;
+    }
+    &-subtitle {
+        color: #939393;
+        font-size: 14px;
+    }
 }

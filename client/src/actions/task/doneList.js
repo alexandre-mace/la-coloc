@@ -23,7 +23,7 @@ export function doneList(page = '/tasks') {
     dispatch(loading(true));
     dispatch(error(''));
 
-    fetch(page + '?done=true')
+    fetch(page)
       .then(response =>
         response
           .json()

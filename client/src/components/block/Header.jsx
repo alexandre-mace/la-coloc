@@ -25,17 +25,17 @@ class Header extends React.Component {
                 <div className="row pt-3">
                     <div className="col">
                         <div className={"d-flex justify-content-between align-items-center"}>
-                            <div className={"font-weight-bold"}>
+                            <div className={"font-weight-bold flat-title"}>
                                 Nom de l'appartement
                             </div>
                             {this.props.currentUser ? (
                                 <div className={"d-flex"} onClick={this.handleLogout}>
-                                    <FontAwesomeIcon icon={faEllipsisV} color={'#000000'} />
+                                    <FontAwesomeIcon icon={faEllipsisV} color={'#ffffff'} />
                                 </div>
                             ) : (
                                 <Link to="/se-connecter">
                                     <div className="d-flex">
-                                        <FontAwesomeIcon icon={faEllipsisV} color={'#000000'} />
+                                        <FontAwesomeIcon icon={faEllipsisV} color={'#ffffff'} />
                                     </div>
                                 </Link>
                             )}

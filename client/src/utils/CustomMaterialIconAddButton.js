@@ -18,7 +18,7 @@ export default function CustomMaterialIconAddButton() {
   return (
     <div>
       <div>
-        <Fab color="secondary" aria-label="add" className={classes.margin}>
+        <Fab aria-label="add" className={classes.margin}>
           <AddIcon />
         </Fab>
       </div>

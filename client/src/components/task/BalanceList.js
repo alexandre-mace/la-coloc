@@ -12,7 +12,6 @@ class BalanceList extends Component {
     error: PropTypes.string,
     eventSource: PropTypes.instanceOf(EventSource),
     deletedItem: PropTypes.object,
-    list: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired
   };
 
@@ -39,10 +38,10 @@ class BalanceList extends Component {
         label: '# of Votes',
         data: [],
         backgroundColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
+          'rgba(255, 126, 71, 1)',
+          'rgba(93, 163, 152, 1)',
+          'rgba(255, 183, 22, 1)',
+          'rgba(50, 119, 107, 1)',
           'rgba(153, 102, 255, 1)',
           'rgba(255, 159, 64, 1)'
         ],
@@ -50,15 +49,25 @@ class BalanceList extends Component {
       }]
     }
 
-    if (this.props.retrieved) {
-      const userBalanceDatas = {};
-      this.props.retrieved['hydra:member'].forEach((task) => {
-        let userFirstName = task.createdBy.firstName
+    let laziestUser = null;
+    const userColors = {};
 
-        if (!(userBalanceDatas.hasOwnProperty(task.createdBy.firstName))) {
-          userBalanceDatas[userFirstName] = task.hardness + 1
-        } else {
-          userBalanceDatas[userFirstName] = userBalanceDatas[userFirstName] + task.hardness + 1
+    if (this.props.retrieved) {
+      function checkTaskIsDone(task) {
+        return task.done === true;
+      }
+      function getKeyByValue(object, value) {
+        return Object.keys(object).find(key => object[key] === value);
+      }
+
+      const doneTasks =  this.props.retrieved['hydra:member'].filter(checkTaskIsDone)
+      const userBalanceDatas = {};
+      doneTasks.forEach((task) => {
+        if (task.doneBy && !(userBalanceDatas.hasOwnProperty(task.doneBy))) {
+          userBalanceDatas[task.doneBy] = task.hardness + 1
+        }
+        else {
+          userBalanceDatas[task.doneBy] = userBalanceDatas[task.doneBy] + task.hardness + 1
         }
       })
 
@@ -67,6 +76,14 @@ class BalanceList extends Component {
         data.labels.push(key)
         data.datasets[0].data.push(value)
       }
+      data.labels.forEach((label, index) => {
+        userColors[label] = data.datasets[0].backgroundColor[index]
+      })
+
+      console.log(userColors);
+
+      const smallestPointAmount = Math.min(data.datasets[0].data);
+      laziestUser = getKeyByValue(userBalanceDatas, smallestPointAmount);
     }
 
 
@@ -91,26 +108,37 @@ class BalanceList extends Component {
         <div className={"row"}>
           <div className="col">
             {this.props.retrieved &&
+            <>
             <Doughnut data={data} />
+              {laziestUser !== undefined &&
+              <p className={'text-center'}>{`Courage ${laziestUser}`}</p>
+              }
+            </>
             }
           </div>
         </div>
-        <div className="row">
+        <div className="row mt-5">
           <div className="col">
-            <h3>Historique des tâches</h3>
+            <p className={"last-done-tasks mb-3"}>Dernières tâches réalisées</p>
           </div>
         </div>
         <div className="row">
           <div className="col">
             <ul className={""}>
               {this.props.retrieved &&
-              this.props.retrieved['hydra:member'].map(item => (
-                <li key={item['@id']} className={"d-flex justify-content-between"}>
-                    <div className={"mr-3"}>{item['name']}</div>
-                    <div>{item['hardness']}</div>
-                    <div>{item.createdBy && `Ajouté par ${item.createdBy.firstName}`}</div>
-                </li>
-              ))}
+              this.props.retrieved['hydra:member'].map((item, index) => {
+                let color = userColors[item.doneBy];
+                return (
+                <li key={item['@id']} className={"d-flex last-done-task-item justify-content-between"}>
+                  <div className={"mr-3 last-done-task-item-title"}>{item['name']}</div>
+                  <div className={"d-flex align-items-center last-done-task-item-subinfos-wrapper"}>
+                    <div>
+                      <div style={{backgroundColor: color, width: '15px', height: '15px', borderRadius: '50%'}}></div>
+                    </div>
+                    <div className={"ml-2 last-done-task-item-subtitle"}>{`${item.doneBy}`}</div>
+                  </div>
+                </li>)
+              })}
             </ul>
           </div>
         </div>

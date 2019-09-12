@@ -1,5 +1,7 @@
 export default function (values) {
-  values.hardness = parseInt(values.hardness);
+  if (values.hasOwnProperty('hardness')) {
+    values.hardness = parseInt(values.hardness);
+  }
 
   return values;
 }

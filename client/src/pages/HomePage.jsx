@@ -49,7 +49,8 @@ const useStyles = makeStyles(theme => ({
         width: '100vw',
     },
     tabs: {
-        boxShadow : '0 2px 6px -6px #292727'
+        boxShadow : '0 2px 6px -6px #292727',
+        backgroundColor: '#61A398'
 
     },
     tab: {
@@ -91,12 +92,12 @@ export default function HomePage(props) {
                 <AppContext.Consumer>
                     {(context) => (
                         <div className={classes.root}>
-                            <AppBar position="static" color="default" className={classes.tabs}>
+                            <AppBar position="static" className={classes.tabs}>
                                 <Tabs
                                     value={context.tabValue}
                                     onChange={context.handleChange}
                                     indicatorColor="secondary"
-                                    textColor="inherit"
+                                    textColor="secondary"
                                     variant="fullWidth"
                                     aria-label="full width tabs example"
                                 >

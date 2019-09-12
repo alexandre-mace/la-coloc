@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import DoneIcon from '@material-ui/icons/Done';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -15,7 +15,7 @@ export default function CustomMaterialIconDoneButton(props) {
   return (
     <div>
       <IconButton onClick={() => props.onPress()} className={classes.button}>
-        <CheckCircleOutlineIcon className={classes.icon} color={'disabled'} fontSize={'large'}/>
+        <DoneIcon className={classes.icon} fontSize={'large'}/>
       </IconButton>
     </div>
   );

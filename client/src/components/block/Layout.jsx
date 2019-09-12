@@ -6,6 +6,7 @@ import {AppContext} from '../../utils/AppContext';
 import { createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import { ThemeProvider } from '@material-ui/styles';
+import AlertTaskDone from '../task/AlertTaskDone'
 
 const theme = createMuiTheme({
     palette: {
@@ -23,7 +24,8 @@ class Layout extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            currentUser: false
+            currentUser: false,
+            showAlert: false            
         };
     }
 
@@ -39,11 +41,18 @@ class Layout extends React.Component {
         })
     }
 
+    displayTaskDone = () => {
+        this.setState({
+            showAlert: !this.state.showAlert
+        })
+    }
+
     render() {
         return(
 
-            <AppContext.Provider value={{ updateCurrentUser: () => this.updateCurrentUser(), currentUser: this.state.currentUser }}>
+            <AppContext.Provider value={{ updateCurrentUser: () => this.updateCurrentUser(), currentUser: this.state.currentUser,  showAlert: () => this.displayTaskDone() }}>
                 <ThemeProvider theme={theme}>
+                    <AlertTaskDone showAlert={this.state.showAlert} />
                     <Header updateCurrentUser={() => this.updateCurrentUser()} currentUser={this.state.currentUser} {...this.props} />
                     {this.props.children}
                 </ThemeProvider>

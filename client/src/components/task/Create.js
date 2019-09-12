@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Form from './Form';
 import { create, reset } from '../../actions/task/create';
+import { list } from '../../actions/task/list';
 
 class Create extends Component {
   static propTypes = {
@@ -14,22 +15,30 @@ class Create extends Component {
     reset: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    super(props)
+    this.state = {
+    };
+}
+
   componentWillUnmount() {
     this.props.reset();
   }
 
   render() {
-    if (this.props.created)
+    if (this.props.created){
+      this.props.list()
+      this.props.hide()
       return (
         <Redirect
-          to={`edit/${encodeURIComponent(this.props.created['@id'])}`}
+          to={`/`}
         />
       );
+    }
+
 
     return (
       <div>
-        <h1>New Task</h1>
-
         {this.props.loading && (
           <div className="alert alert-info" role="status">
             Loading...
@@ -41,11 +50,7 @@ class Create extends Component {
             {this.props.error}
           </div>
         )}
-
-        <Form onSubmit={this.props.create} values={this.props.item} />
-        <Link to="." className="btn btn-primary">
-          Back to list
-        </Link>
+        <Form onSubmit={this.props.create} values={this.props.item} hide={() => this.props.hide()}/>
       </div>
     );
   }
@@ -58,6 +63,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   create: values => dispatch(create(values)),
+  list: page => dispatch(list(page)),
   reset: () => dispatch(reset())
 });
 

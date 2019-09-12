@@ -20,7 +20,6 @@ export function create(values) {
   values.createdBy = authentication.currentUserValue["@id"];
   return dispatch => {
     dispatch(loading(true));
-
     return fetch('/tasks', { method: 'POST', body: JSON.stringify(values) })
       .then(response => {
         dispatch(loading(false));

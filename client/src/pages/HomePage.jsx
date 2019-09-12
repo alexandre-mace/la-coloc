@@ -60,6 +60,8 @@ export default function HomePage(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const [isHidden, setIsHidden] = React.useState(false);
+    const [addClass, setAddClass] = React.useState(false);
 
     function handleChange(event, newValue) {
         setValue(newValue);
@@ -69,6 +71,18 @@ export default function HomePage(props) {
         setValue(index);
     }
 
+    function toggle() {
+        setAddClass(!addClass);
+    }
+
+    const show = () =>{
+        setIsHidden(true)
+        setAddClass('R')
+    }
+    const hide = () =>{
+        setIsHidden(false)
+        setAddClass("")
+    }
     return (
         <>
             <Layout>
@@ -100,6 +114,11 @@ export default function HomePage(props) {
                     </SwipeableViews>
                 </div>
             </Layout>
+            <div className={isHidden ? 'smoothTransition inFront' : 'inFront'}>
+                { this.state.isHidden ? <Create show={() => this.show()} hide={() => this.hide()} {...this.props} /> : null }
+            </div>
+            { this.state.isHidden ? <button onClick={this.hide} className="hideBackground"></button> : null }
+            <div className="addTask" onClick={this.show}>+</div>
         </>
     );
 }

@@ -11,10 +11,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * @ApiResource(
+ *     mercure="true",
  *     normalizationContext={"groups"={"task:read", "task"}},
  *     denormalizationContext={"groups"={"task:write", "task"}}
  * )
- * * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  * @ApiFilter(BooleanFilter::class, properties={"done"})
  * @ApiFilter(OrderFilter::class, properties={"id"}, arguments={"orderParameterName"="order"})
  */

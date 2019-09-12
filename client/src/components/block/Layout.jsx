@@ -25,7 +25,8 @@ class Layout extends React.Component {
         super(props)
         this.state = {
             currentUser: false,
-            showAlert: false            
+            showAlert: false,
+            value: 0 
         };
     }
 
@@ -41,24 +42,37 @@ class Layout extends React.Component {
         })
     }
 
+    handleChange = ( event, newValue) => {
+        this.setState({value: newValue});
+    }
+
+    handleChangeIndex = (index) => {
+        this.setState({value: index});
+    }
+
     displayTaskDone = () => {
         this.setState({
             showAlert: !this.state.showAlert
         })
     }
 
+    openBalancedTab = () => {
+        this.displayTaskDone()
+        this.setState({value: 1})
+    }
+
     render() {
         return(
 
-            <AppContext.Provider value={{ updateCurrentUser: () => this.updateCurrentUser(), currentUser: this.state.currentUser,  showAlert: () => this.displayTaskDone() }}>
+            <AppContext.Provider value={{ updateCurrentUser: () => this.updateCurrentUser(), currentUser: this.state.currentUser,  showAlert: () => this.displayTaskDone(), tabValue: this.state.value, handleChange: this.handleChange, handleChangeIndex: this.handleChangeIndex}}>
                 <ThemeProvider theme={theme}>
-                    <AlertTaskDone showAlert={this.state.showAlert} />
+                    <AlertTaskDone showAlert={this.state.showAlert} displayTaskDone={this.displayTaskDone} openBalancedTab={this.openBalancedTab} />
                     <Header updateCurrentUser={() => this.updateCurrentUser()} currentUser={this.state.currentUser} {...this.props} />
                     {this.props.children}
                 </ThemeProvider>
             </AppContext.Provider>
 
-    );
+        );
     }
 }
 const mapStateToProps = state => ({

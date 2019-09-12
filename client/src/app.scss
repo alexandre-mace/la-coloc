@@ -240,22 +240,80 @@ header {
 .done {
   height: 120px;
   background-color: #ffffff;
-  box-shadow: 0px 3px 6px 0px #000000;
-  flex-direction: row;
+  box-shadow: 0px 3px 6px 0px #bcbcbc;
   position: absolute;
   top: 0;
   left: 10px;
   right: 10px;
   transform: translateY(-150%);
   z-index: 100;
+  transition: all 0.3s ease-in-out;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 .done--displayed {
-  transform: translateY(0)
+  transform: translateY(10%)
 }
 
-.done__square {
-  background-color: #F2F7FE;
+.done__circle {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  z-index: -1;
+  background-color: #FFFAE6;
+  height: 110px;
+  width: 110px;
+  border-radius: 50%;
+}
+
+.done__image {
   height: 80px;
-  width: 80px;
-  border-radius: 20px;
+}
+
+.done__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: 'Nanum Gothic', sans-serif;
+  height: 100%;
+}
+
+.done__mainText {
+  color: #292727;
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.done__secondText {
+  color: #939393;
+  font-size: 14px;
+}
+
+.done__button {
+  color: #FF7F50;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 900;
+  position: relative;
+}
+
+.done__button:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: #FF7F50;
+}
+
+.done__close {
+  padding: 0;
+  margin:0;
 }

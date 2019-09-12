@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import Layout from "../components/block/Layout";
 import {List} from "../components/task";
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Total from "../components/task/Total";
 import BalanceList from "../components/task/BalanceList";
+import {AppContext} from '../utils/AppContext'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -60,6 +61,7 @@ export default function HomePage(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const [customContext, setCustomContext] = useState(undefined)
     const [isHidden, setIsHidden] = React.useState(false);
     const [addClass, setAddClass] = React.useState(false);
 
@@ -86,33 +88,37 @@ export default function HomePage(props) {
     return (
         <>
             <Layout>
-                <div className={classes.root}>
-                    <AppBar position="static" color="white" className={classes.tabs}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            indicatorColor="secondary"
-                            textColor="#292727"
-                            variant="fullWidth"
-                            aria-label="full width tabs example"
-                        >
-                            <Tab className={classes.tab} label="Tâches" {...a11yProps(0)} />
-                            <Tab className={classes.tab}  label="Équilibre" {...a11yProps(1)} />
-                        </Tabs>
-                    </AppBar>
-                    <SwipeableViews
-                        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                        index={value}
-                        onChangeIndex={handleChangeIndex}
-                    >
-                        <TabPanel value={value} index={0} dir={theme.direction}>
-                            <List {...props}/>
-                        </TabPanel>
-                        <TabPanel value={value} index={1} dir={theme.direction}>
-                            <BalanceList {...props}/>
-                        </TabPanel>
-                    </SwipeableViews>
-                </div>
+                <AppContext.Consumer>
+                    {(context) => (
+                        <div className={classes.root}>
+                            <AppBar position="static" color="default" className={classes.tabs}>
+                                <Tabs
+                                    value={context.tabValue}
+                                    onChange={context.handleChange}
+                                    indicatorColor="secondary"
+                                    textColor="inherit"
+                                    variant="fullWidth"
+                                    aria-label="full width tabs example"
+                                >
+                                    <Tab className={classes.tab} label="Tâches" {...a11yProps(0)} />
+                                    <Tab className={classes.tab}  label="Équilibre" {...a11yProps(1)} />
+                                </Tabs>
+                            </AppBar>
+                            <SwipeableViews
+                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                                index={context.tabValue}
+                                onChangeIndex={context.handleChangeIndex}
+                            >
+                                <TabPanel value={context.tabValue} index={0} dir={theme.direction}>
+                                    <List {...props}/>
+                                </TabPanel>
+                                <TabPanel value={context.tabValue} index={1} dir={theme.direction}>
+                                    <BalanceList {...props}/>
+                                </TabPanel>
+                            </SwipeableViews>
+                        </div>
+                    )}
+                </AppContext.Consumer>
             </Layout>
             <div className={isHidden ? 'smoothTransition inFront' : 'inFront'}>
                 { this.state.isHidden ? <Create show={() => this.show()} hide={() => this.hide()} {...this.props} /> : null }

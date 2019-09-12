@@ -23,7 +23,7 @@ export function list(page = '/tasks') {
     dispatch(loading(true));
     dispatch(error(''));
 
-    fetch(page + '?done=false')
+    fetch(page + '?done=false&order[id]=desc')
       .then(response =>
         response
           .json()

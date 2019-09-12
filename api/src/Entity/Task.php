@@ -54,6 +54,12 @@ class Task
      */
     private $createdBy;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"task"})
+     */
+    private $doneBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +109,18 @@ class Task
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getDoneBy(): ?string
+    {
+        return $this->doneBy;
+    }
+
+    public function setDoneBy(?string $doneBy): self
+    {
+        $this->doneBy = $doneBy;
 
         return $this;
     }

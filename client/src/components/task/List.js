@@ -8,6 +8,8 @@ import CustomMaterialIconAddButton from "../../utils/CustomMaterialIconAddButton
 import {
   fetch,
 } from '../../utils/dataAccess';
+import AlertTaskDone from './AlertTaskDone'
+import { AppContext } from '../../utils/AppContext';
 
 class List extends Component {
   static propTypes = {
@@ -19,6 +21,14 @@ class List extends Component {
     list: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired
   };
+  static contextType = AppContext
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      taskDone: false
+    };
+  }
 
   componentDidMount() {
     this.props.list(
@@ -48,6 +58,7 @@ class List extends Component {
     }).then(response => response
         .json()
         .then((data) => {
+          this.context.showAlert()
           this.props.list(
             this.props.match.params.page &&
               decodeURIComponent(this.props.match.params.page)
@@ -56,9 +67,22 @@ class List extends Component {
       )
   }
 
+  deleteTask = (id) => {
+    fetch(`${id}`, {
+      method: 'DELETE'
+    }).then(() => {
+      this.props.list(
+        this.props.match.params.page &&
+        decodeURIComponent(this.props.match.params.page)
+      );
+    })
+  }
+
   render() {
     return (
       <div>
+        
+        {/* {this.taskDone && <AlertTaskDone taskDone />} */}
         {this.props.loading && (
           <div className="alert alert-info">Loading...</div>
         )}
@@ -84,7 +108,7 @@ class List extends Component {
                 <div className="d-flex flex-column">
                   <p className={"mr-3 task-list-item-title font-weight-bold"}>{item['name']}</p>
                   <p className={"task-list-item-subtitle"}>{`Tâche ajoutée par ${item.createdBy.firstName}`}</p>
-                  <p className={"task-list-item-secondary-action mt-2"}>Supprimer cette tâche</p>
+                  <button onClick={() => this.deleteTask(item['@id'])} className={"task-list-item-secondary-action mt-2"}>Supprimer cette tâche</button>
                 </div>
                 <div className={"d-flex task-list-item-button-wrapper ml-auto"}>
                   <div className="m-auto">

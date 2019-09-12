@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * @ApiResource(
@@ -15,6 +16,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  * )
  * * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  * @ApiFilter(BooleanFilter::class, properties={"done"})
+ * @ApiFilter(OrderFilter::class, properties={"id"}, arguments={"orderParameterName"="order"})
  */
 class Task
 {
